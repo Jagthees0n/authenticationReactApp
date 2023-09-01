@@ -1,11 +1,20 @@
+import axios from 'axios';
 import React, { useState } from 'react'
 
 function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    
+    function registerUser(e){
+        e.preventDefault();
+    }
+    
+    // const data = {email, password}
+    // axios.post('', data);
+
   return (
     <div>
-      <form action=''>
+      <form action='' onSubmit={e=>registerUser(e)}> 
         <h2>Register</h2>   
         <input type='email' 
         placeholder='enter your email'
