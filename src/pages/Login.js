@@ -2,19 +2,23 @@ import axios from 'axios';
 import React, { useState, useContext } from 'react';
 import UserContext from './UserContext';
 
-function Register() {
+function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const user = useContext(UserContext);
+    const [loginError, setLoginError] = useState(false);
     
-    function registerUser(e){
+    function loginUser(e){
         e.preventDefault();
         const data = {email, password}
-        axios.post('http://localhost:4000/register', data, {withCredentials:true})
+        axios.post('http://localhost:4000/login', data, {withCredentials:true})
         .then(response =>{
           user.setEmail(response.data.email);
           setEmail('');
           setPassword('');
+        })
+        .catch(()=>{
+            setLoginError(true);
         });
     }
     
@@ -22,8 +26,13 @@ function Register() {
 
   return (
     <div>
-      <form action='' onSubmit={e=>registerUser(e)}> 
-        <h2>Register</h2>   
+      <form action='' onSubmit={e=>loginUser(e)}> 
+        <h2>Login</h2>  
+        {
+            loginError && (
+                <div>Wrong email or password entered! please check</div>
+            )
+        } 
         <input type='email' 
         placeholder='enter your email'
         value={email}
@@ -32,10 +41,10 @@ function Register() {
         placeholder='enter password' 
         value={password}
         onChange={e=>{setPassword(e.target.value)}}/><br/>
-        <button type='submit'>register</button>
+        <button type='submit'>login</button>
       </form>
     </div>
   )
 }
  
-export default Register
+export default Login;
